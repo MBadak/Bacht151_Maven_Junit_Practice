@@ -41,5 +41,12 @@ public abstract class TestBase {
         driver.findElement(By.xpath(kabulLocate)).click();
         driver.switchTo().parentFrame();
     }
+
+    // Dosya yolunu dinamik olarak alamak
+    public String  getDosyaYolu(String s) {
+
+        String dosyaYolu= System.getProperty("user.home")+s;
+        return dosyaYolu;
+    }
 }
 
