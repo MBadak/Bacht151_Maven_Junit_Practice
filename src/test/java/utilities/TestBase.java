@@ -1,14 +1,17 @@
 package utilities;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public abstract class TestBase {
 
@@ -47,6 +50,24 @@ public abstract class TestBase {
 
         String dosyaYolu= System.getProperty("user.home")+s;
         return dosyaYolu;
+    }
+
+    // Tüm sayfa resmi al
+
+    public void tumSayfaResimAl() {
+        LocalDateTime date = LocalDateTime.now();
+        DateTimeFormatter dtf= DateTimeFormatter.ofPattern("YYMMdd-HH.mm.ss");
+        String tarih = date.format(dtf);
+
+        TakesScreenshot ts = (TakesScreenshot) driver;
+        File kayit = new File("tumSayfaResimleri/urun "+tarih+".jpg");
+        File geciciDosya= ts.getScreenshotAs(OutputType.FILE);
+
+        try {
+            FileUtils.copyFile(geciciDosya,kayit);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 
